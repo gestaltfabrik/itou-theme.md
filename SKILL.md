@@ -1422,80 +1422,224 @@ Navigation contextuelle en haut de page (retour, navigation entre fiches, info c
 
 ## Mise en page et layout
 
-### Layout authentifie `.l-authenticated`
+### REGLES CRITIQUES — Anti-patterns a ne JAMAIS utiliser
 
-Classe sur `<body>` pour les pages avec navigation laterale (sidebar offcanvas). Structure :
+Ces elements n'existent dans AUCUN des 16 modeles de reference et cassent le layout :
 
-```html
-<body class="l-authenticated">
-  <nav class="c-skiplinks">...</nav>
-  <header class="s-header">...</header>
-  <div class="l-authenticated__wrapper">
-    <aside class="offcanvas offcanvas-end offcanvas-xl" id="offcanvasSidebar">
-      <div class="offcanvas-header">
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" data-bs-target="#offcanvasSidebar" aria-label="Fermer le menu"></button>
-      </div>
-      <div class="offcanvas-body">
-        <nav aria-label="Menu principal" id="nav-primary">
-          <ul class="nav nav-tabs flex-column">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="#">
-                <i class="ri-dashboard-line" aria-hidden="true"></i>
-                <span>Tableau de bord</span>
-              </a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-    </aside>
-    <main class="s-main" role="main" id="main">
-      <!-- sections de contenu -->
-    </main>
-  </div>
-  <footer>...</footer>
+1. **`l-authenticated__wrapper`** — N'EXISTE PAS. Ne jamais envelopper le contenu dans un wrapper div.
+2. **`<aside>` pour la sidebar** — N'EXISTE PAS. La sidebar est generee par CSS via `l-authenticated` sur `<body>` + l'offcanvas dans `<header>`.
+3. **`offcanvasSidebar`** — N'EXISTE PAS. Le seul offcanvas de navigation est `offcanvasNav`, toujours DANS `<header>`.
+4. **`<footer>` sur les pages authentifiees** — N'EXISTE PAS. Les liens legaux sont dans `offcanvas-footer` a l'interieur de `offcanvasNav`.
+5. **Tout element entre `</header>` et `<main>`** — INTERDIT. `<main>` est toujours enfant direct de `<body>`, immediatement apres `</header>`.
+
+### Hierarchie des enfants directs de `<body>`
+
+Les enfants directs de `<body>` suivent TOUJOURS cet ordre strict, sans exception :
+
+**Page authentifiee** (`<body class="l-authenticated">`) :
+```
+<body id="top" class="l-authenticated">
+  1. <nav class="c-skiplinks">                         — toujours present
+  2. <div class="global-messages-container">            — optionnel (alertes globales)
+  3. <header role="banner" id="header">                — toujours present
+  4. <main class="s-main" role="main" id="main">       — DIRECTEMENT apres </header>
+  5. <div class="modal ...">                            — optionnel (modales body-level)
+  6. <script>                                           — Popper + Bootstrap
 </body>
 ```
 
-Comportement : offcanvas a droite sur mobile (< xl), sidebar fixe a gauche sur xl+. Container main contraint a `max-width: xl` (1280px).
-
-### En-tete `.s-header`
-
-```html
-<header class="s-header" role="banner">
-  <section class="s-header__container container">
-    <a href="/" class="s-header__logo">
-      <img src="logo-emplois-light.svg" alt="Les emplois de l'inclusion - Retour a l'accueil" height="56">
-    </a>
-    <nav>
-      <ul class="s-header__nav">
-        <li><a href="#">Lien 1</a></li>
-      </ul>
-    </nav>
-  </section>
-</header>
+**Page non-authentifiee** (`<body id="top">` ou `<body class="p-home">`) :
+```
+<body id="top">
+  1. <nav class="c-skiplinks">                         — toujours present
+  2. <div class="global-messages-container">            — optionnel
+  3. <header role="banner" id="header">                — toujours present
+  4. <main class="s-main" role="main" id="main">       — DIRECTEMENT apres </header>
+  5. <footer role="contentinfo" id="footer">            — TOUJOURS present
+  6. <div class="modal ...">                            — optionnel
+  7. <script>                                           — Popper + Bootstrap
+</body>
 ```
 
-Style : `position: sticky`, `top: 0`, fond blanc, `box-shadow`. En mode authentifie : fond `nuance-10`.
+### Differences cles entre layouts
 
-### Pied de page `.s-footer`
+| Regle | Authentifie | Non-authentifie |
+|---|---|---|
+| Classe `<body>` | `l-authenticated` | aucune (ou `p-home`) |
+| Section header | `s-header-authenticated` (3 colonnes : logo, nav, burger) | `s-header` (4 colonnes : logo-ministere, logo-service, nav, burger) |
+| Postheader | **absent** | `s-postheader` (nav secondaire desktop) |
+| Offcanvas header | `offcanvas-header--organization` (selecteur de structure) | `offcanvas-header` simple |
+| Offcanvas body extras | dropups portail (nexus) + compte utilisateur + aide | aucun |
+| Offcanvas footer | `offcanvas-footer__legal` avec logo + liens legaux | liens nav primaire mobile |
+| `<footer>` page | **jamais present** | **toujours present** (3 sections) |
+| Section titre dans main | `s-title-02` (toujours) | `s-title-01`, `s-title-02`, ou `s-home-search` |
+| Filtres offcanvas | dans `<main>`, apres les sections | dans `<main>`, apres les sections |
 
-Structure en 3 parties :
+### Layout authentifie `.l-authenticated`
+
+Classe sur `<body>` pour les pages avec navigation laterale. La sidebar est generee uniquement par CSS a partir de l'offcanvas `#offcanvasNav` situe dans `<header>`. Comportement : offcanvas a droite sur mobile (< xl), sidebar fixe a gauche sur xl+. Container main contraint a `max-width: xl` (1280px).
+
+**Structure de reference** (extraite des 8 modeles authentifies) :
 
 ```html
-<footer>
-  <section class="s-footer-quick">
-    <!-- Liens rapides -->
-  </section>
-  <section class="s-footer-gip">
-    <!-- Logo et liens du GIP -->
-  </section>
-  <section class="s-footer-legal">
-    <!-- Mentions legales, accessibilite -->
-  </section>
-</footer>
+<body id="top" class="l-authenticated">
+  <nav role="navigation" aria-label="Acces rapide" class="c-skiplinks">
+    <ul>
+      <li><a href="#nav-primary">Aller au menu principal</a></li>
+      <li><a href="#main">Aller au contenu principal</a></li>
+    </ul>
+  </nav>
+
+  <header role="banner" id="header">
+    <section class="s-header-print">...</section>
+    <section class="s-header-authenticated">
+      <div class="s-header-authenticated__container container">
+        <div class="s-header-authenticated__row row">
+          <div class="s-header-authenticated__col s-header-authenticated__col--logo-service col-auto d-flex align-items-center pe-0">
+            <a href="/"><img src="./images/logo-emploi-inclusion.svg" alt="Les emplois de l'inclusion" height="90"></a>
+          </div>
+          <div class="s-header-authenticated__col s-header-authenticated__col--nav col d-flex align-items-center justify-content-end pe-0">
+            <nav role="navigation" id="nav-primary" aria-label="Navigation principale">
+              <ul>
+                <li class="dropdown"><!-- Dropdown utilisateur (Mon espace) --></li>
+                <li class="d-none d-lg-inline-block dropdown dropdown-organization"><!-- Dropdown organisation --></li>
+              </ul>
+            </nav>
+          </div>
+          <div class="s-header-authenticated__col s-header-authenticated__col--burger col-auto d-flex align-items-center ps-0">
+            <button type="button" class="btn btn-link btn-ico pe-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+              <i class="ri-menu-line" aria-hidden="true"></i>
+              <span>Menu</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Offcanvas : navigation mobile ET sidebar desktop (gere par CSS) -->
+    <div class="offcanvas" id="offcanvasNav" aria-label="Navigation principale pour mobile">
+      <div class="offcanvas-header offcanvas-header--organization">
+        <!-- Selecteur de structure + bouton fermer -->
+      </div>
+      <div class="offcanvas-body d-flex flex-column">
+        <nav class="flex-grow-1" role="navigation" aria-label="Navigation principale">
+          <ul class="nav nav-tabs flex-column">
+            <li class="nav-item"><a href="#" class="nav-link active" aria-current="page"><i class="ri-home-line fw-medium" aria-hidden="true"></i><span>Tableau de bord</span></a></li>
+            <li class="nav-item"><a href="#" class="nav-link"><i class="ri-draft-line fw-medium" aria-hidden="true"></i><span>Candidatures</span></a></li>
+            <!-- Autres liens de navigation -->
+          </ul>
+        </nav>
+        <!-- Optionnel : dropup portail nexus -->
+        <!-- Optionnel : dropup compte utilisateur (mobile) -->
+        <!-- Optionnel : dropup aide -->
+      </div>
+      <div class="offcanvas-footer flex-column align-items-stretch">
+        <div class="offcanvas-footer__legal">
+          <div class="d-none d-xl-block"><!-- Logo visible uniquement en mode sidebar desktop --></div>
+          <ul>
+            <li><a href="">Accessibilite</a></li>
+            <li><a href="">Mentions legales</a></li>
+            <li><a href="">CGU</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- DIRECTEMENT apres </header>, sans wrapper -->
+  <main class="s-main" role="main" id="main">
+    <section class="s-title-02">...</section>
+    <section class="s-section">...</section>
+    <!-- Optionnel : offcanvas filtres en fin de main -->
+  </main>
+  <!-- PAS de <footer> sur les pages authentifiees -->
+</body>
 ```
+
+### Layout non-authentifie
+
+Pas de classe specifique sur `<body>` (sauf `p-home` pour la page d'accueil). Header complet avec logos Republique + service, navigation standard, et footer 3 sections toujours present.
+
+**Structure de reference** (extraite des 8 modeles non-authentifies) :
+
+```html
+<body id="top">
+  <nav role="navigation" aria-label="Acces rapide" class="c-skiplinks">
+    <ul>
+      <li><a href="#nav-primary">Aller au menu principal</a></li>
+      <li><a href="#main">Aller au contenu principal</a></li>
+    </ul>
+  </nav>
+
+  <header role="banner" id="header">
+    <section class="s-header-print">...</section>
+    <section class="s-header">
+      <div class="s-header__container container">
+        <div class="s-header__row row">
+          <div class="s-header__col s-header__col--logo-ministere col col-md-auto d-flex align-items-center pe-0">
+            <a href="/" class="s-header__logo-ministere"><img src="./images/logo-republique-francaise.svg" alt="Republique Francaise"></a>
+          </div>
+          <div class="s-header__col s-header__col--logo-service col-auto d-flex align-items-center px-0">
+            <a href="/"><img src="./images/logo-emploi-inclusion.svg" alt="Les emplois de l'inclusion" height="90"></a>
+          </div>
+          <div class="s-header__col s-header__col--nav col d-none d-lg-inline-flex d-lg-flex align-items-center justify-content-end pe-0 pe-xl-3">
+            <nav role="navigation" id="nav-primary" aria-label="Navigation principale">
+              <ul><!-- Liens navigation + bouton Connexion --></ul>
+            </nav>
+          </div>
+          <div class="s-header__col s-header__col--burger col-auto d-flex d-lg-none align-items-center ps-0">
+            <button type="button" class="btn btn-link btn-ico pe-0" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNav" aria-controls="offcanvasNav">
+              <i class="ri-menu-line" aria-hidden="true"></i>
+              <span>Menu</span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- Optionnel : section postheader pour nav secondaire desktop -->
+    <section class="s-postheader d-none d-xl-block">
+      <nav><!-- Liens secondaires --></nav>
+    </section>
+    <!-- Offcanvas mobile -->
+    <div class="offcanvas" id="offcanvasNav">
+      <div class="offcanvas-header"><!-- Bouton fermer --></div>
+      <div class="offcanvas-body"><nav><!-- Nav secondaire mobile --></nav></div>
+      <div class="offcanvas-footer"><nav><!-- Nav primaire mobile (Connexion, etc.) --></nav></div>
+    </div>
+  </header>
+
+  <!-- DIRECTEMENT apres </header>, sans wrapper -->
+  <main class="s-main" role="main" id="main">
+    <section class="s-title-01 | s-title-02 | s-home-search">...</section>
+    <section class="s-section">...</section>
+  </main>
+
+  <!-- TOUJOURS present sur les pages non-authentifiees -->
+  <footer role="contentinfo" id="footer">
+    <section class="s-footer-quick"><!-- Liens rapides en colonnes --></section>
+    <section class="s-footer-gip"><!-- Logo et description GIP Plateforme --></section>
+    <section class="s-footer-legal"><!-- Accessibilite, mentions, CGU, licence --></section>
+  </footer>
+</body>
+```
+
+### Sections dans `<main>` — ordre de reference
+
+| Type de page | Premiere section | Sections suivantes |
+|---|---|---|
+| Dashboard authentifie | `s-title-02` | `s-section` |
+| Detail/fiche authentifiee | `s-title-02` | `s-section` |
+| Formulaire authentifie | `s-title-02` | `s-section` (stepper + c-form) |
+| Recherche authentifiee | `s-title-02` | `s-section` |
+| CMS authentifie | `s-title-02` | `s-cms` |
+| Page d'accueil | `s-home-search` | `s-article-figure-01`, `s-section`, etc. |
+| Mentions legales | `s-title-02` | `s-section` |
+| Inscription | `s-title-01` ou `s-title-02` | `s-section` |
+| Recherche non-auth | `s-title-02` | `s-section` |
 
 ### Skiplinks `.c-skiplinks`
+
+Toujours le premier enfant de `<body>`, avant tout le reste.
 
 ```html
 <nav role="navigation" aria-label="Acces rapide" class="c-skiplinks">
@@ -1504,6 +1648,24 @@ Structure en 3 parties :
     <li><a href="#main">Aller au contenu principal</a></li>
   </ul>
 </nav>
+```
+
+### Pied de page `.s-footer` (pages non-authentifiees uniquement)
+
+Toujours 3 sections dans cet ordre. Note : `s-footer-community` est documente mais n'est utilise dans aucun modele de reference.
+
+```html
+<footer role="contentinfo" id="footer">
+  <section class="s-footer-quick">
+    <!-- Liens rapides en colonnes -->
+  </section>
+  <section class="s-footer-gip">
+    <!-- Logo et description GIP Plateforme de l'inclusion -->
+  </section>
+  <section class="s-footer-legal">
+    <!-- Accessibilite, mentions legales, CGU, licence etalab -->
+  </section>
+</footer>
 ```
 
 ---
