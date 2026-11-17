@@ -1496,7 +1496,7 @@ Classe sur `<body>` pour les pages avec navigation laterale. La sidebar est gene
       <div class="s-header-authenticated__container container">
         <div class="s-header-authenticated__row row">
           <div class="s-header-authenticated__col s-header-authenticated__col--logo-service col-auto d-flex align-items-center pe-0">
-            <a href="/"><img src="./images/logo-emploi-inclusion.svg" alt="Les emplois de l'inclusion" height="90"></a>
+            <a href="/"><img src="./assets/images/logo-emploi-inclusion.svg" alt="Les emplois de l'inclusion" height="90"></a>
           </div>
           <div class="s-header-authenticated__col s-header-authenticated__col--nav col d-flex align-items-center justify-content-end pe-0">
             <nav role="navigation" id="nav-primary" aria-label="Navigation principale">
@@ -1577,10 +1577,10 @@ Pas de classe specifique sur `<body>` (sauf `p-home` pour la page d'accueil). He
       <div class="s-header__container container">
         <div class="s-header__row row">
           <div class="s-header__col s-header__col--logo-ministere col col-md-auto d-flex align-items-center pe-0">
-            <a href="/" class="s-header__logo-ministere"><img src="./images/logo-republique-francaise.svg" alt="Republique Francaise"></a>
+            <a href="/" class="s-header__logo-ministere"><img src="./assets/images/logo-republique-francaise.svg" alt="Republique Francaise"></a>
           </div>
           <div class="s-header__col s-header__col--logo-service col-auto d-flex align-items-center px-0">
-            <a href="/"><img src="./images/logo-emploi-inclusion.svg" alt="Les emplois de l'inclusion" height="90"></a>
+            <a href="/"><img src="./assets/images/logo-emploi-inclusion.svg" alt="Les emplois de l'inclusion" height="90"></a>
           </div>
           <div class="s-header__col s-header__col--nav col d-none d-lg-inline-flex d-lg-flex align-items-center justify-content-end pe-0 pe-xl-3">
             <nav role="navigation" id="nav-primary" aria-label="Navigation principale">
@@ -2207,7 +2207,7 @@ Exemples : `emplois-logo-light.svg`, `dora-monogramme-dark.png`
 
 ## Demarrage rapide — Prototype
 
-Pour generer un prototype HTML fonctionnel avec le theme itou, utiliser les assets fournis avec ce skill (dossiers `stylesheets/`, `javascripts/`, `fonts/`, `images/`) :
+Pour generer un prototype HTML fonctionnel avec le theme itou, utiliser les assets fournis avec ce skill (dossiers `assets/stylesheets/`, `assets/javascripts/`, `assets/fonts/`, `assets/images/`) :
 
 ### En-tete minimal
 
@@ -2218,9 +2218,9 @@ Pour generer un prototype HTML fonctionnel avec le theme itou, utiliser les asse
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Titre de la page</title>
-  <link rel="shortcut icon" href="./images/favicon.ico" type="image/ico">
-  <link rel="stylesheet" crossorigin href="./stylesheets/app.css">
-  <script type="module" crossorigin src="./javascripts/app.js"></script>
+  <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/ico">
+  <link rel="stylesheet" crossorigin href="./assets/stylesheets/app.css">
+  <script type="module" crossorigin src="./assets/javascripts/app.js"></script>
 </head>
 ```
 
@@ -2250,7 +2250,7 @@ Le CSS compile embarque les declarations `@font-face` pour :
 - **Covered By Your Grace** — woff/woff2
 - **Remix Icon** — eot/ttf/woff/woff2
 
-Les fichiers de polices sont egalement fournis dans le dossier `fonts/` de ce skill. Pas besoin de lien Google Fonts ou CDN supplementaire.
+Les fichiers de polices sont egalement fournis dans le dossier `assets/fonts/` de ce skill. Pas besoin de lien Google Fonts ou CDN supplementaire.
 
 ### Version
 
@@ -2337,9 +2337,9 @@ app.scss
 
 ## Modeles HTML de reference
 
-Les modeles du dossier `modeles/` servent de reference pour la structure des pages (copies depuis `dist/` du repo).
+Les modeles du dossier `assets/modeles/` servent de reference pour la structure des pages (copies depuis `dist/` du repo).
 
-**Note chemins** : les modeles referencent les assets via `./images/`, `./stylesheets/`, `./javascripts/`. Pour les utiliser directement, copier les modeles a la racine du skill ou ajuster les chemins vers `../images/` etc.
+**Note chemins** : les modeles HTML referencent les assets via `./images/`, `./stylesheets/`, `./javascripts/` (chemins relatifs au modele). Comme les modeles sont dans `assets/modeles/` et les assets dans `assets/images/` etc., les chemins fonctionnent directement depuis le dossier `assets/`. Pour utiliser un modele depuis la racine du projet, ajuster les chemins vers `./assets/images/` etc.
 
 ### Catalogue des modeles
 
@@ -2380,9 +2380,9 @@ Les modeles du dossier `modeles/` servent de reference pour la structure des pag
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Titre — Les emplois de l'inclusion</title>
-  <link rel="shortcut icon" href="./images/favicon.ico" type="image/ico">
-  <script type="module" crossorigin src="./javascripts/app.js"></script>
-  <link rel="stylesheet" crossorigin href="./stylesheets/app.css">
+  <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/ico">
+  <script type="module" crossorigin src="./assets/javascripts/app.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/stylesheets/app.css">
 </head>
 <body id="top">
   <!-- Skiplinks -->
@@ -2404,10 +2404,10 @@ Les modeles du dossier `modeles/` servent de reference pour la structure des pag
       <div class="container">
         <div class="row">
           <div class="col-md-auto d-flex align-items-center py-2">
-            <img src="./images/logo-republique-francaise.svg" height="70" alt="Republique Francaise">
+            <img src="./assets/images/logo-republique-francaise.svg" height="70" alt="Republique Francaise">
           </div>
           <div class="col d-flex align-items-center">
-            <img src="./images/logo-emploi-inclusion.svg" height="60" alt="Les emplois de l'inclusion">
+            <img src="./assets/images/logo-emploi-inclusion.svg" height="60" alt="Les emplois de l'inclusion">
           </div>
         </div>
       </div>
@@ -2417,11 +2417,11 @@ Les modeles du dossier `modeles/` servent de reference pour la structure des pag
         <div class="s-header__row row">
           <div class="s-header__col s-header__col--logo-ministere col col-md-auto d-flex align-items-center pe-0">
             <a href="/" class="s-header__logo-ministere">
-              <img src="./images/logo-republique-francaise.svg" alt="Republique Francaise">
+              <img src="./assets/images/logo-republique-francaise.svg" alt="Republique Francaise">
             </a>
           </div>
           <div class="s-header__col s-header__col--logo-service col-auto d-flex align-items-center px-0">
-            <a href="/"><img src="./images/logo-emploi-inclusion.svg" alt="Les emplois de l'inclusion" height="90"></a>
+            <a href="/"><img src="./assets/images/logo-emploi-inclusion.svg" alt="Les emplois de l'inclusion" height="90"></a>
           </div>
           <div class="s-header__col s-header__col--nav col d-none d-lg-inline-flex d-lg-flex align-items-center justify-content-end pe-0 pe-xl-3">
             <nav role="navigation" id="nav-primary" aria-label="Navigation principale">
@@ -2498,7 +2498,7 @@ Les modeles du dossier `modeles/` servent de reference pour la structure des pag
         <div class="s-footer-gip__row row">
           <div class="s-footer-gip__col s-footer-gip__col--logo col-12 col-md-6 col-lg-auto">
             <a href="https://inclusion.beta.gouv.fr/" target="_blank">
-              <img src="./images/logo-plateforme-inclusion.svg" height="80" alt="Plateforme de l'inclusion">
+              <img src="./assets/images/logo-plateforme-inclusion.svg" height="80" alt="Plateforme de l'inclusion">
             </a>
           </div>
           <div class="s-footer-gip__col col-12 col-md-6 col-lg">
@@ -2539,9 +2539,9 @@ Les modeles du dossier `modeles/` servent de reference pour la structure des pag
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Tableau de bord — Les emplois de l'inclusion</title>
-  <link rel="shortcut icon" href="./images/favicon.ico" type="image/ico">
-  <script type="module" crossorigin src="./javascripts/app.js"></script>
-  <link rel="stylesheet" crossorigin href="./stylesheets/app.css">
+  <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/ico">
+  <script type="module" crossorigin src="./assets/javascripts/app.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/stylesheets/app.css">
 </head>
 <body id="top" class="l-authenticated">
   <!-- Skiplinks -->
@@ -2558,10 +2558,10 @@ Les modeles du dossier `modeles/` servent de reference pour la structure des pag
       <div class="container">
         <div class="row">
           <div class="col-md-auto d-flex align-items-center py-2">
-            <img src="./images/logo-republique-francaise.svg" height="70" alt="Republique Francaise">
+            <img src="./assets/images/logo-republique-francaise.svg" height="70" alt="Republique Francaise">
           </div>
           <div class="col d-flex align-items-center">
-            <img src="./images/logo-emploi-inclusion.svg" height="60" alt="Les emplois de l'inclusion">
+            <img src="./assets/images/logo-emploi-inclusion.svg" height="60" alt="Les emplois de l'inclusion">
           </div>
         </div>
       </div>
@@ -2572,7 +2572,7 @@ Les modeles du dossier `modeles/` servent de reference pour la structure des pag
       <div class="s-header-authenticated__container container">
         <div class="s-header-authenticated__row row">
           <div class="s-header-authenticated__col s-header-authenticated__col--logo-service col-auto d-flex align-items-center pe-0">
-            <a href="/"><img src="./images/logo-emploi-inclusion.svg" alt="Les emplois de l'inclusion" height="90"></a>
+            <a href="/"><img src="./assets/images/logo-emploi-inclusion.svg" alt="Les emplois de l'inclusion" height="90"></a>
           </div>
           <div class="s-header-authenticated__col s-header-authenticated__col--nav col d-flex align-items-center justify-content-end pe-0">
             <nav role="navigation" id="nav-primary" aria-label="Navigation principale">
@@ -2866,32 +2866,32 @@ Les modeles du dossier `modeles/` servent de reference pour la structure des pag
 ### Fichiers fournis avec ce skill
 
 **Polices** (embarquees dans app.css via @font-face) :
-- `fonts/marianne/` — Marianne Regular, Medium, Bold, ExtraBold + italiques (woff + woff2)
-- `fonts/coveredbyyourgrace/` — Covered By Your Grace (woff + woff2)
-- `fonts/remixicon/` — Remix Icon (eot, ttf, woff, woff2, svg, glyph.json)
+- `assets/fonts/marianne/` — Marianne Regular, Medium, Bold, ExtraBold + italiques (woff + woff2)
+- `assets/fonts/coveredbyyourgrace/` — Covered By Your Grace (woff + woff2)
+- `assets/fonts/remixicon/` — Remix Icon (eot, ttf, woff, woff2, svg, glyph.json)
 
 **Images** (43 fichiers inclus) :
-- `images/favicon.ico` — Favicon
-- `images/logo-republique-francaise.svg` — Logo Republique Francaise (en-tete)
-- `images/logo-emploi-inclusion.svg` — Logo principal du service
-- `images/logo-emploi-inclusion-{light,dark,mono,simple}.svg` — Variantes logo
-- `images/logo-plateforme-inclusion.svg` — Logo plateforme (pied de page GIP)
-- `images/logo-{service}-*.svg` — Logos des sous-produits (dora, marche, pilotage, communaute, monrecap, inclusion-connect, etc.)
-- `images/logo-beta-gouv.svg`, `logo-ministere-emploi.svg`, `logo-france-travail.svg` — Logos institutionnels
+- `assets/images/favicon.ico` — Favicon
+- `assets/images/logo-republique-francaise.svg` — Logo Republique Francaise (en-tete)
+- `assets/images/logo-emploi-inclusion.svg` — Logo principal du service
+- `assets/images/logo-emploi-inclusion-{light,dark,mono,simple}.svg` — Variantes logo
+- `assets/images/logo-plateforme-inclusion.svg` — Logo plateforme (pied de page GIP)
+- `assets/images/logo-{service}-*.svg` — Logos des sous-produits (dora, marche, pilotage, communaute, monrecap, inclusion-connect, etc.)
+- `assets/images/logo-beta-gouv.svg`, `logo-ministere-emploi.svg`, `logo-france-travail.svg` — Logos institutionnels
 
 **Fichiers JS** :
-- `javascripts/app.js` — JS du theme (infobulles, popovers, presse-papier, textareas extensibles, bascule mot de passe, alerte fermable une fois, impression, conseil)
+- `assets/javascripts/app.js` — JS du theme (infobulles, popovers, presse-papier, textareas extensibles, bascule mot de passe, alerte fermable une fois, impression, conseil)
 
 ---
 
 ## Liens et references
 
 **Fichiers locaux (fournis avec ce skill)** :
-- CSS compile : `stylesheets/app.css`
-- JS du theme : `javascripts/app.js`
-- Polices : `fonts/` (marianne, coveredbyyourgrace, remixicon)
-- Logos : `images/` (43 logos et favicon)
-- Modeles HTML : `modeles/` (22 pages de reference)
+- CSS compile : `assets/stylesheets/app.css`
+- JS du theme : `assets/javascripts/app.js`
+- Polices : `assets/fonts/` (marianne, coveredbyyourgrace, remixicon)
+- Logos : `assets/images/` (43 logos et favicon)
+- Modeles HTML : `assets/modeles/` (22 pages de reference)
 
 **Sources dans le repo** :
 - Configurations SCSS : `src/stylesheets/base/_variables.scss`
