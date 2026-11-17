@@ -1,0 +1,18 @@
+# Fonts — binaires, pas de diff
+*.woff  binary
+*.woff2 binary
+*.eot   binary
+*.ttf   binary
+
+# Images — binaires, pas de diff
+*.png  binary
+*.svg  text
+*.ico  binary
+
+# CSS compile — volumineux, pas de diff
+stylesheets/app.css binary
+
+# Linguist — le repo est un skill, pas du code
+*.md linguist-documentation=false
+*.css linguist-vendored=true
+*.js linguist-vendored=true
